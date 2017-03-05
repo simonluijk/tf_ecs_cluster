@@ -1,0 +1,66 @@
+#cloud-config
+
+repo_update: true
+repo_upgrade: all
+
+runcmd:
+    - chkconfig --add kickstart
+    - service kickstart start
+
+write_files:
+
+    # ECS Config
+    -   content: |
+            ECS_CLUSTER=${name}
+            AWS_DEFAULT_REGION=us-west-2
+        path: /etc/ecs/ecs.config
+        owner: root:root
+        permissions: '0644'
+
+    # EFS
+    -   content: '${efs}'
+        encoding: b64
+        path: /opt/kickstart/10-efs.sh
+        owner: root:root
+        permissions: '0755'
+
+    # Docker
+    -   content: '${docker_kickstart}'
+        encoding: b64
+        path: /opt/kickstart/20-docker.sh
+        owner: root:root
+        permissions: '0755'
+
+    # Kickstart
+    -   content: '${kickstart}'
+        encoding: b64
+        path: /opt/kickstart.sh
+        owner: root:root
+        permissions: '0755'
+
+    -   content: '${kickstart_init}'
+        encoding: b64
+        path: /etc/init.d/kickstart
+        owner: root:root
+        permissions: '0755'
+
+    # AWS command prompt
+    -   content: '${cmd_prompt}'
+        encoding: b64
+        path: /etc/profile.d/aws-cmd-prompt.sh
+        owner: root:root
+        permissions: '0755'
+
+    # Logrotate
+    -   content: '${logrotate}'
+        encoding: b64
+        path: /etc/logrotate.conf
+        owner: root:root
+        permissions: '0644'
+
+    # Bashrc
+    -   content: '${bashrc}'
+        encoding: b64
+        path: /root/.bashrc
+        owner: root:root
+        permissions: '0755'
