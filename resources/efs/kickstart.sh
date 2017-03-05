@@ -17,7 +17,7 @@ mkdir /mnt/efsData
 
 #Get EFS FileSystemID attribute
 #Instance needs to be added to a EC2 role that give the instance at least read access to EFS
-EFS_FILE_SYSTEM_ID=`/usr/bin/aws efs describe-file-systems --region $EC2_REGION | jq '.FileSystems[]' | jq 'select(.Name=="shared_ecs")' | jq -r '.FileSystemId'`
+EFS_FILE_SYSTEM_ID=`/usr/bin/aws efs describe-file-systems --region $EC2_REGION | jq '.FileSystems[]' | jq 'select(.Name=="${filesystem_name}")' | jq -r '.FileSystemId'`
 #Check to see if the variable is set. If not, then exit.
 if [ -z "$EFS_FILE_SYSTEM_ID" ]; then
 	echo "ERROR: variable not set" 1> /etc/efssetup.log

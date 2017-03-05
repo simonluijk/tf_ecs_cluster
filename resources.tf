@@ -1,6 +1,10 @@
 
 data "template_file" "efs" {
     template = "${file("${path.module}/resources/efs/kickstart.sh")}"
+
+    vars {
+      filesystem_name = "${var.filesystem_name}"
+    }
 }
 
 

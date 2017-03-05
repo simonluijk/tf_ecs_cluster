@@ -18,6 +18,8 @@ variable "aws_region" {}
 variable "aws_access_key" {}
 variable "aws_secret_key" {}
 
+variable "filesystem_name" {}
+
 /*
 https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html
 */
