@@ -21,7 +21,6 @@ data "template_file" "userdata" {
 module "ecs_autoscaling_group" {
   source = "github.com/simonluijk/tf_aws_asg"
 
-  lc_name = "${var.name} ECS Cluster"
   ami_id = "${lookup(var.amis, var.aws_region)}"
   instance_type = "${var.instance_type}"
   iam_instance_profile = "${var.iam_instance_profile}"
